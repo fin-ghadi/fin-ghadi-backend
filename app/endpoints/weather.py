@@ -46,7 +46,6 @@ async def get_weather(location: Location):
         humidity=weather_data["humidity"],
         wind_speed=weather_data["wind_speed"],
     )
-    await weather.insert()
 
     return weather
 

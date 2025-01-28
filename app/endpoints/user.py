@@ -127,8 +127,10 @@ async def login(form_data: LoginRequest):
             "id": str(user.id),
             "email": user.email,
             "fullName": user.fullName,
+            "gender":user.gender,
+            'age':user.age
         },
-    };
+    }
 # Get User by ID Endpoint
 @router.get("/{user_id}", response_model=User)
 async def get_user_by_id(user_id: PydanticObjectId):

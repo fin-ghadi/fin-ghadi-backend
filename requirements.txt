@@ -1,1 +1,14 @@
-fastapi\nuvicorn
+fastapi
+uvicorn
+motor
+pydantic
+beanie
+python-dotenv
+python-jose[cryptography]
+passlib
+PyJWT
+requests
+geopy
+google-generativeai
+httpx
+jwt
