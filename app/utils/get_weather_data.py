@@ -33,7 +33,7 @@ async def get_weather_data(lat: float, lon: float) -> Optional[dict]:
             response = await client.get(BASE_URL, params=params)
             response.raise_for_status()
             data = response.json()
-
+            #  Overpass Query Language (Overpass QL)
             # Extract relevant weather details
             weather_data = {
                 "city": data["name"],  # City name

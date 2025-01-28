@@ -17,20 +17,32 @@ async def get_weather(location: Location):
     Get the weather based on the provided latitude and longitude.
     """
     # Fetch weather data using the provided latitude and longitude
-    weather_data = await get_weather_data(location.lat, location.lon)
+    lat = location.latitude
+    lon = location.longitude
+    weather_data = await get_weather_data(lat,lon)
     if not weather_data:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Weather data not found",
         )
+ 
+    # interface WeatherResponse {
+    #   city: string;
+    #   country: string;
+    #   temperature: number;
+    #   description: string;
+    #   main: string;
+    #   humidity: number;
+    #   wind_speed: number;
+    # }
 
     # Create a Weather document and save it to the database
     weather = Weather(
-        location_name=f"Lat: {location.lat}, Lon: {location.lon}",
-        latitude=location.lat,
-        longitude=location.lon,
+        city=weather_data["city"],
+        country=weather_data["country"],
         temperature=weather_data["temperature"],
         description=weather_data["description"],
+        main=weather_data["main"],
         humidity=weather_data["humidity"],
         wind_speed=weather_data["wind_speed"],
     )
@@ -39,10 +51,13 @@ async def get_weather(location: Location):
     return weather
 
 @router.get("/test_weather")
-async def test_weather(lat: float, lon: float):
+async def test_weather(location: Location):
     """
     Test the weather endpoint with custom latitude and longitude.
     """
+    lat = location.latitude
+    lon = location.longitude
+    print(lat, lon)
     weather_data = await get_weather_data(lat, lon)
     if not weather_data:
         raise HTTPException(

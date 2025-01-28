@@ -12,9 +12,12 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 # User Model
 class User(Document):
-    name: str
+ 
+    fullName: str
     email: str
     password: str
+    gender: str
+    age: int
 
     class Settings:
         name = "users"
@@ -38,16 +41,35 @@ class User(Document):
         except jwt.InvalidTokenError:
             print("Invalid token")
         return None
+# location Model
 
+class Location(BaseModel):
+    latitude: float
+    longitude: float
+    
+    
+class Quote(Document):
+    quote: str
+    author: str
+    
+    class Settings:
+        name = "quotes"
+    
+    
+    
 # Activity Model
 class Activity(Document):
     name: str
-    description: Optional[str] = None
-    category: str
-    location: Optional[str] = None
-    opening_hours: Optional[str] = None
-    creator: Link[User]
-
+    address: str
+    location: Location  # Update to dictionary to match the sample
+    type: str
+    rating: Optional[float] = None  # Rating field added
+    distance: Optional[float] = None  # Distance field added
+    website: Optional[str] = None  # Website field added
+    phone: Optional[str] = None  # Phone field added
+    opening_hours: Optional[str] = None  # Opening hours field added
+    description: Optional[str] = None  # Description field added
+    constructions: Optional[str] = None 
     class Settings:
         name = "activities"
 
@@ -56,30 +78,22 @@ class UserActivity(Document):
     user: Link[User]
     activity: Link[Activity]
     timestamp: datetime = datetime.utcnow()
-
+    user_rating: Optional[float] = None 
     class Settings:
         name = "user_activities"
 
 # Weather Model
 class Weather(Document):
-    location_name: str
-    latitude: float
-    longitude: float
+    city: str
+    country: str
     temperature: float
     description: str
-    humidity: Optional[int] = None
-    wind_speed: Optional[float] = None
-    timestamp: datetime = datetime.utcnow()
+    main: str
+    humidity: int
+    wind_speed: float
+    
 
     class Settings:
-        name = "weather"
+        name = "weather"    
         
         
-# location Model
-
-class Location(BaseModel):
-    latitude: float
-    longitude: float
-    
-    
-    
